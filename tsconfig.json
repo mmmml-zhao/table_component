@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "module": "ES2015",
+    "target": "ES2015",
+    "allowJs": false,
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "removeComments": true,
+    "pretty": true,
+    "strictPropertyInitialization": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "ES2018"
+    ],
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ],
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

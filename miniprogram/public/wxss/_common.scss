@@ -1,0 +1,177 @@
+@charset "UTF-8";
+
+/*盒子*/
+
+page, view, scroll-view, swiper, movable-area, cover-view, text, icon, rich-text,
+progress, button, checkbox-group, checkbox, form, input, label, picker,
+picker-view, radio-group, slider, switch, textarea, navigator, audio, image,
+video, live-player, live-pusher, open-data, web-view {
+  box-sizing: border-box;
+}
+button{
+  outline: none;
+}
+button::after{
+  border: none;
+  outline: none; 
+}
+
+// button[]
+
+// 两行...
+.text-collapse{
+  display:-webkit-box;
+  -webkit-box-orient:vertical; 
+  -webkit-line-clamp:2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} 
+ 
+//字体加粗
+.f-bold {
+  font-weight: bold;
+}
+
+//清除浮动
+.clear {
+  clear: both;
+  overflow: hidden;
+}
+
+//禁止换行
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+//添加position
+.add-position {
+  position: relative;
+}
+
+//宽度高度布局
+$wh: 100, 50, 25;
+@each $h in $wh {
+  .w-#{$h} {
+    width: #{$h+'%'};
+  }
+  .h-#{$h} {
+    height: #{$h+'%'};
+  }
+}
+
+
+//生成内边距 与外边距工具类
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+$mpSize: 5rpx 10rpx 20rpx 30rpx 40rpx 60rpx;
+@for $a from 1 through length($mpSize) {
+  .pt-#{$a} {
+    padding-top: nth($mpSize, $a);
+  }
+  .pb-#{$a} {
+    padding-bottom: nth($mpSize, $a);
+  }
+  .pl-#{$a} {
+    padding-left: nth($mpSize, $a);
+  }
+  .pr-#{$a} {
+    padding-right: nth($mpSize, $a);
+  }
+
+  .mt-#{$a} {
+    margin-top: nth($mpSize, $a);
+  }
+  .mb-#{$a} {
+    margin-bottom: nth($mpSize, $a);
+  }
+  .ml-#{$a} {
+    margin-left: nth($mpSize, $a);
+  }
+  .mr-#{$a} {
+    margin-right: nth($mpSize, $a);
+  }
+}
+
+//文字布局
+$text: left, right, center;
+@each $f in $text {
+  .text-#{$f} {
+    text-align: #{$f}
+  }
+}
+
+//生成字体大小工具类
+$fontSize: 12 14 16 18 20 22 24 26 28 30 32 36 40;
+@each $b in $fontSize {
+  .f-#{$b} {
+    font-size: $b+rpx
+  }
+}
+
+//flex布局
+.box {
+  display: flex;
+}
+
+.box-tag-big {
+  flex-grow: 1;
+}
+
+$principalAxis: start, between, center, around, end;
+$rowOrCol: row, col;
+$wrap: -wrap, '', -start, -end;
+@each $c in $principalAxis {
+  @each $d in $rowOrCol {
+    @each $e in $wrap {
+      .box-#{$d}-#{$c}#{$e} {
+        //控制主轴及是否换行
+        @if $d == row {
+          @if $e == -wrap {
+            flex-flow: wrap;
+          } @else {
+            flex-flow: nowrap;
+          }
+        } @else {
+          @if $e == -wrap {
+            flex-flow: column wrap;
+          } @else {
+            flex-flow: column nowrap;
+          }
+        }
+
+        //主轴类型
+        @if $c == start {
+          justify-content: flex-start
+        } @else if $c == between {
+          justify-content: space-between
+        } @else if $c == center {
+          justify-content: center
+        } @else if $c == around {
+          justify-content: space-around
+        } @else if $c == end {
+          justify-content: flex-end
+        }
+
+        //交叉轴类型
+        @if $e == -start {
+          align-items: flex-start;
+        } @else if $e == -end {
+          align-items: flex-end;
+        } @else {
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+.box-tg {
+  align-items: stretch 
+}
+
+

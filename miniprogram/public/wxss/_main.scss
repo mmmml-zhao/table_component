@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+/*全局参数*/
+$c-main: #687CEE;
+
+@mixin bg-img-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@mixin bg-img-contain {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
