@@ -1,1 +1,1 @@
-/* No CSS */
+.tip{margin:30rpx;padding:30rpx;font-size:28rpx;background-color:#687CEE;border-radius:30rpx;color:#fff}

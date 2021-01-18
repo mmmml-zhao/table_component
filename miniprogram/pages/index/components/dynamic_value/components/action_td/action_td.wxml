@@ -1,0 +1,17 @@
+<view class="action-box" catchtap="handleClickItem" data-type="{{columns.key}}">
+  <block wx:if="{{columns.key === 'name'}}">
+    <view class="name">{{item.name}}</view>
+  </block>
+  <block wx:elif="{{columns.key === 'age'}}">
+    <view class="age">{{item.age}}</view>
+  </block>
+  <block wx:elif="{{columns.key === 'sex'}}">
+    <view class="sex">{{item.sex}}</view>
+  </block>
+  <block wx:elif="{{columns.key === 'action'}}">
+    <!-- 启动编辑 禁用时显示启用按钮 -->
+    <view class="action-btn disable" hidden="{{dynamicValue.value}}">禁用</view>
+    <!-- 启动编辑 启用时显示禁用按钮 -->
+    <view class="action-btn enable" hidden="{{!dynamicValue.value}}">启用</view>
+  </block>
+</view>

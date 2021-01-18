@@ -7,8 +7,8 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black",
-    "backgroundColorTop": "#687CEE",
-    "backgroundColorBottom": "#F6F6F6"
+    "backgroundColorTop": "#fff",
+    "backgroundColorBottom": "#F2f2f2"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

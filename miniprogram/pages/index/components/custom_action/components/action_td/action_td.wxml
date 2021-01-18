@@ -1,0 +1,11 @@
+<view class="action-box" catchtap="handleClickItem" data-type="{{columns.key}}">
+  <block wx:if="{{columns.key === 'name'}}">
+    <view class="name">{{item.name}}</view>
+  </block>
+  <block wx:elif="{{columns.key === 'age'}}">
+    <view class="age">{{item.age}}</view>
+  </block>
+  <block wx:elif="{{columns.key === 'sex'}}">
+    <view class="sex">{{item.sex}}</view>
+  </block>
+</view>

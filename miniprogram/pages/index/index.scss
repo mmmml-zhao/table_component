@@ -1,1 +1,10 @@
 @import '../../public/wxss/main';
+
+.tip{
+  margin: 30rpx;
+  padding: 30rpx;
+  font-size: 28rpx;
+  background-color: $c-main;
+  border-radius: 30rpx;
+  color:#fff
+}

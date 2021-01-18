@@ -1,0 +1,1 @@
+.expand-box{padding:0 20rpx 35rpx;font-size:24rpx;color:#333}.expand-box .line{padding:30rpx 0}.expand-box .line.name{color:#006699}.expand-box .line.age{color:#990066}.expand-box .line.sex{color:#669900}

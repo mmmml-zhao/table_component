@@ -1,0 +1,5 @@
+<view class="expand-box">
+  <view class="line name" bindtap="handleClickItem" data-type="name">姓名:{{item.name}}</view>
+  <view class="line age" bindtap="handleClickItem" data-type="age">年龄:{{item.age}}</view>
+  <view class="line sex" bindtap="handleClickItem" data-type="sex">性别:{{item.sex}}</view>
+</view>

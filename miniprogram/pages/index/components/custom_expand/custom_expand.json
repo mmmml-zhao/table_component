@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "table": "/public/components/public/table/table",
+    "expand-component": "./components/expand_component/expand_component"
+  }
+}

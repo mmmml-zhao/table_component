@@ -5,7 +5,7 @@
   },
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "libVersion": "2.8.2",
+  "libVersion": "2.9.1",
   "projectname": "%E5%B0%8F%E7%A8%8B%E5%BA%8Ftable%E7%BB%84%E4%BB%B6",
   "scripts": {
     "beforeCompile": "npm run tsc",
@@ -15,7 +15,7 @@
   "setting": {
     "urlCheck": false,
     "es6": true,
-    "enhance": false,
+    "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,

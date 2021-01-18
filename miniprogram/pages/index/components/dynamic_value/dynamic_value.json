@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "table": "/public/components/public/table/table",
+    "action-td": "./components/action_td/action_td"
+  }
+}

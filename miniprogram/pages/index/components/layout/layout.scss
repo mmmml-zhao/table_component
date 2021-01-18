@@ -1,0 +1,18 @@
+.block{
+  margin-bottom: 60rpx;
+  padding: 30rpx;
+  .title{
+    margin-bottom: 30rpx;
+    font-size: 28rpx;
+    color:#333
+  }
+  .content{
+    margin-bottom: 30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+  }
+  .desc{
+    font-size: 24rpx;
+    color: #666;
+  }
+}

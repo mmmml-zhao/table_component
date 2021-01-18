@@ -1,0 +1,7 @@
+<view class="block">
+  <view class="title">{{title}}</view>
+  <view class="content">
+    <slot></slot>
+  </view>
+  <view class="desc">{{desc}}</view>
+</view>

@@ -1,0 +1,13 @@
+function computedTdWidth(columns, select) {
+  if (columns.width) {
+    return columns.width
+  } else if (select) {
+    return 'calc( (calc(100% - 60rpx)) / ' + columns.length + ')'
+  } else {
+    return 'calc( 100% / ' + columns.length + ')'
+  }
+}
+
+module.exports = {
+  computedTdWidth: computedTdWidth
+}

@@ -1,0 +1,44 @@
+ 
+.table-line{
+  border-bottom: 2rpx solid #DDDDDD;
+// 表格数据
+  .tr{
+    display: flex;
+    min-height: 120rpx;
+    .td{
+      padding: 35rpx 10rpx;
+      text-align: center;
+      white-space:normal; 
+      word-break:break-all;
+      font-size: 24rpx;
+      color: #333;
+      word-break:break-all;
+      display: flex;
+      -ms-flex-flow: wrap;
+      flex-flow: wrap;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      &.select{
+        width: 60rpx;
+        padding: 0 1rpx; 
+      }
+    }
+  }  
+  .expand{
+    height: 0;
+    font-size: 24rpx; 
+    color: #A2A2A2;
+    line-height: 54rpx;
+    word-wrap:  break-word;   
+    word-break: break-all;   
+    overflow: hidden;
+    opacity: 0;
+    .expand-box{
+      padding: 0 50rpx 35rpx;
+    }
+  }
+}

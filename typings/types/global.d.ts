@@ -45,7 +45,8 @@ declare namespace GlobalData {
 
   // 全局的globalData参数设置
   interface GlobalData {
-
+    pageConfig: PageConfig,
+    transmit: Transmit
   }
 
 }

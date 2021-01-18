@@ -1,0 +1,48 @@
+
+.list{
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+  .tip-image-block{
+    width: 100%;
+    height: 100%;
+    .icon{
+      width: 270rpx;
+      height: 209rpx;
+      margin-bottom: 40rpx;
+    }
+    .title{
+      margin-bottom: 30rpx;
+      font-size: 32rpx;
+      color: #333;
+      font-weight: bold;
+    }
+    .subtitle{
+      font-size: 28rpx;
+      color: #a2a2a2;
+      letter-spacing: 4rpx;
+    }
+  }
+  .scroll-view{
+    overflow: hidden; 
+  }
+}
+
+// 表格数据
+.tr{
+  display: flex;
+  border-bottom: 2rpx solid #DDDDDD;
+  .th{
+    padding: 35rpx 10rpx;
+    font-size: 28rpx;
+    color: #333; 
+    font-weight: bold;
+    text-align: center;
+    white-space:normal; 
+    word-break:break-all;
+    &.select{
+      width: 60rpx;
+      padding: 0 1rpx; 
+    }
+  }
+}

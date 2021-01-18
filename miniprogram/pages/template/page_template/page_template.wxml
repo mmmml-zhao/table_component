@@ -1,4 +1,4 @@
-<my-nav bgColor="{{cMain}}">
-  <my-nav-btn slot="leftBtn" homepage="/pages/index/index/index" color="#fff"></my-nav-btn>
+<zml-nav bgColor="{{cMain}}">
+  <zml-nav-btn slot="leftBtn" homepage="/pages/index/index/index" color="#fff"></zml-nav-btn>
   <view slot="center" class="page-title">页面名称</view>
-</my-nav>
+</zml-nav>

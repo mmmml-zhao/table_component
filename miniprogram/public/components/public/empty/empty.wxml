@@ -1,0 +1,5 @@
+<view class="no-data" hidden="{{!show}}">
+  <image class="image" src="./empty_tip.png" />
+  <view class="text">{{text}}</view>
+  <view class="sub-text">{{subText}}</view>
+</view>

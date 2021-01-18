@@ -1,5 +1,17 @@
 {
   "navigationBarTitleText": "自定义table",
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "layout": "./components/layout/layout",
+    "basic": "./components/basic/basic",
+    "set-height": "./components/set_height/set_height",
+    "scroll-to-lower-and-upper": "./components/scroll_to_lower_and_upper/scroll_to_lower_and_upper",
+    "custom-action": "./components/custom_action/custom_action",
+    "check": "./components/check/check",
+    "expand": "./components/expand/expand",
+    "custom-expand": "./components/custom_expand/custom_expand",
+    "dynamic-value": "./components/dynamic_value/dynamic_value",
+    "parameter": "./components/parameter/parameter",
+    "function": "./components/function/function"
+  }
 }

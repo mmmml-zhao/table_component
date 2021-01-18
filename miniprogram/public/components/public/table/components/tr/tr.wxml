@@ -1,0 +1,25 @@
+<wxs src="../../table.wxs" module="table" />
+<!-- 标识符字符串是传进来的 -->
+<view class="table-line">
+  <view class="tr" bindtap="handleClickListItem" data-item="{{item}}" data-index="{{index}}">
+    <view class="td select" wx:if="{{select}}">
+      <checkbox checked="{{checked}}" catchtap="handleClickCheck" data-item="{{item}}" data-index="{{index}}" />
+    </view>
+    <block wx:for="{{columns}}" wx:for-index="cIndex" wx:for-item="cItem" wx:key="key">
+      <view class="td" style="width:{{table.computedTdWidth(columns,select)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" data-key="{{cItem.key}}" data-index="{{index}}" wx:if="{{cItem.type!=='action'}}">
+        {{item[cItem.key]}}
+      </view>
+      <view class="action-td" style="width:{{table.computedTdWidth(columns,select)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" wx:else>
+        <action-td item="{{item}}" index="{{index}}" columns="{{cItem}}" dynamicValue="{{dynamicValue}}" bindclickaction="handleClickAction" slot="action-td"></action-td>
+      </view>
+    </block>
+  </view>
+  <view class="expand" style="{{expandStyle}}" wx:if="{{isExpand}}" animation="{{expandAimationData}}">
+    <view class="expand-box" wx:if="{{expandValueKey}}">
+      {{item[expandValueKey]||initExpandValue}}
+    </view>
+    <view wx:else>
+      <expand-component item="{{item}}" index="{{index}}" dynamicValue="{{dynamicValue}}" bindclickexpand="handleClickExpand"></expand-component>
+    </view>
+  </view>
+</view>

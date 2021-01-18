@@ -1,0 +1,1 @@
+<table class="expand-table" columns="{{tableColumns}}" dataList="{{dataList}}" getListLoading="{{getListLoading}}" showTipImage="{{dataList.length===0&!getListLoading}}" isExpand="{{true}}" expandValueKey="exoand_value" initExpandValue="暂无备注" bindscrolltolower="getList" bindclickexpand="handleClickExpand" />

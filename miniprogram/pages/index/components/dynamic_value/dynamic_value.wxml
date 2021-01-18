@@ -1,0 +1,2 @@
+<table class="basic-table" columns="{{tableColumns}}" dataList="{{dataList}}" getListLoading="{{getListLoading}}" showTipImage="{{dataList.length===0&!getListLoading}}" generic:action-td="action-td" bindscrolltolower="getList" bindscrolltoupper="reloadList" bindclickaction="handleClickAction" dynamicValue="{{({value:editStatus})}}" />
+<button class="button" bindtap="handleClickChangeStatus">切换人员状态</button>

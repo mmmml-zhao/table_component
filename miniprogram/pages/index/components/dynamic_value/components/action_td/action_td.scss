@@ -1,0 +1,34 @@
+.action-box{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow:nowrap;
+  justify-content:center;
+  align-items:center;
+  font-size: 24rpx;
+  .name{
+    color:#006699
+  }
+  .age{
+    color:#990066
+  }
+  .sex{
+    color:#669900
+  }
+  .action-btn{
+    width: 90rpx;
+    height: 46rpx;
+    line-height: 46rpx;
+    border-radius: 10rpx;
+    font-size: 22rpx;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-align: center;
+    &.disable{
+      background: #EF5849;
+    }
+    &.enable{
+      background: #677BEE;
+    }
+  }
+}

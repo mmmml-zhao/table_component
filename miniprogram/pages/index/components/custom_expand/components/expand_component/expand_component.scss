@@ -1,0 +1,17 @@
+.expand-box{
+  padding: 0 20rpx 35rpx;
+  font-size: 24rpx;
+  color:#333;
+  .line{
+    padding: 30rpx 0;
+    &.name{
+      color:#006699
+    }
+    &.age{
+      color:#990066
+    }
+    &.sex{ 
+      color:#669900
+    }
+  }
+}
