@@ -1,7 +1,7 @@
 <view class="tip">
   移动端的页面本应该很少有table表格这样的展示、操作，但总归有这样的需求，然而平时用的vant和iview的小程序组件库都没有table组件，这里将自己编写的table组件展示一下供大家查看。
 </view>
-<layout title="基础用法" desc="必填项:columns、dataList、getListLoading、showTipImage">
+<layout title="基础用法" desc="必填项:columns、dataList、getListLoading、showTipImage。点击行事件通过bindclicklistitem事件监听">
   <basic></basic>
 </layout>
 <layout title="设置滚动区域高度" desc="需要给滚动区域设置固定的高度时请设置scrollViewHeight字段,字段内容和css的height相同,如果不需要滚动效果,则设置为auto">
