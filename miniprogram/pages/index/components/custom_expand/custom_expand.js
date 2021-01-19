@@ -40,7 +40,7 @@ Component({
     methods: {
         options: {},
         handleClickExpand(e) {
-            console.log(e);
+            console.log(e.detail.value);
             let str = '';
             const { type, index, item } = e.detail.value;
             if (type === 'name') {

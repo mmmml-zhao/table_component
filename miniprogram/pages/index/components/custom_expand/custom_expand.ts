@@ -70,7 +70,7 @@ Component<InitData, InitProperty, InitMethod>({
     options: {},
     // 点击table的action区域
     handleClickExpand(e) {
-      console.log(e)
+      console.log(e.detail.value)
       let str: string = ''
       const { type, index, item } = e.detail.value
       if (type === 'name') {

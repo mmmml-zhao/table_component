@@ -1,6 +1,6 @@
 # 使用说明
 
-该组件具有 列表展示模式，勾选模式，展开额外信息模式
+该组件具有 列表展示模式，勾选模式
 
 1. 属性介绍  
 
@@ -24,14 +24,13 @@
 |generic:expand-component| 如果展开区域的内容需要自定义，`expandValueKey`设置为空字符串，则切换到组件模式，传一个组件进来，展开区域的点击事件由`bindclickexpand`触发	| component | undefined |false |
 |dynamicValue|	给自定义内容的动态值，用于改变状态 ，建议{value:放的数据}	| object | {} |false |
   
-  
 2. 事件介绍  
 
 |事件 | 解释| 类型|
 |-----|-----|-----|
-|bindclicklistitem| 点击列表行事件  |Function(e);  e.detail.value = {index:number（当前行序号）,item: any（当前行的内容）}
-|bindclickexpand| 点击展开内容事件  |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在expand-component里)}
-|bindclickaction| 点击抽象节点事件 |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}
-|bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 |Function(e); e.detail.value = any[](数组内每一项是rowKey字段定义的数据的toString()结果)
+|bindclicklistitem| 点击列表行事件  | Function({value: {index:number（当前行序号）,item: any（当前行的内容）}})
+|bindclickexpand| 点击展开内容事件  | Function({ value: e.detail.value}(这里的值具体是看虚拟节点里的点击事件传什么数据往table，我这里是{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}))
+|bindclickaction| 点击抽象节点事件 | Function({ value: e.detail.value}(这里的值具体是看虚拟节点里的点击事件传什么数据往table，我这里是{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}))
+|bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 | Function({ from:number(调整位置的item的开始index), to:number(调整位置的item的结束index)})
 |bindscrolltolower| 滚动触底 | Function() 
 |bindscrolltoupper| 滚动触顶 | Function()
