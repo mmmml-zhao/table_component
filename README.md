@@ -23,142 +23,15 @@
 |expandStyle|	 展开信息的最外层的样式	| string | ''|false |
 |generic:expand-component| 如果展开区域的内容需要自定义，`expandValueKey`设置为空字符串，则切换到组件模式，传一个组件进来，展开区域的点击事件由`bindclickexpand`触发	| component | undefined |false |
 |dynamicValue|	给自定义内容的动态值，用于改变状态 ，建议{value:放的数据}	| object | {} |false |
-
+  
+  
 2. 事件介绍  
 
 |事件 | 解释| 类型|
-|-----|-----|-----|-----|
+|-----|-----|-----|
 |bindclicklistitem| 点击列表行事件  | Function({value: {index:number（当前行序号）,item: any（当前行的内容）}})
 |bindclickexpand| 点击展开内容事件  | Function({ value: e.detail.value}(这里的值具体是看虚拟节点里的点击事件传什么数据往table，我这里是{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}))
 |bindclickaction| 点击抽象节点事件 | Function({ value: e.detail.value}(这里的值具体是看虚拟节点里的点击事件传什么数据往table，我这里是{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}))
 |bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 | Function({ from:number(调整位置的item的开始index), to:number(调整位置的item的结束index)})
 |bindscrolltolower| 滚动触底 | Function() 
 |bindscrolltoupper| 滚动触顶 | Function()
-
-
-3. 自定义组件使用代码  
-  * generic:action-td
-引入组件的代码  
-```html
-<zml-table 
-scrollViewHeight="{{tableScrollViewHeight}}" 
-columns="{{tableColumns}}" 
-dataList="{{dataList}}" 
-getListLoading="{{getListLoading}}" 
-showTipImage="{{dataList.length===0}}" 
-tipTitle="今日未招人" 
-tipSubtitle="明日继续努力" 
-generic:action-td="action-td" 
-select="{{true}}" 
-selectKeys="{{[2,4,5]}}" 
-
-bindcheckkey="handleCheckTable" 
-bindclicklistitem="handleClickListItem" 
-bindscrolltolower="getList" 
-bindclickaction="handleClickActionBtn" 
-/>
-```   
-
-action-td的目标组件代码
-```html
-<view class="action-box box box-row-center">
-  <view class="button close box box-row-center-wrap" size="mini" catchtap="handleClickBtn" data-type="close" wx:if="{{index%2===0}}">
-    禁用
-  </view>
-  <view class="button open box box-row-center-wrap" size="mini" catchtap="handleClickBtn" data-type="open" wx:else>
-    启用
-  </view>
-</view>
-```
-
-action-td的目标组件的ts
-```typescript
-
-  properties: {
-    item: {
-      type: Object,
-      value: {}
-    },
-    index: {
-      type: Number,
-    },
-    dynamicValue: {
-      type: Object,
-      value: {}
-    },
-  },
-  /**
-   * 组件的方法列表
-   */
-  methods: {
-    handleClickBtn(e) {
-      const { type } = e.currentTarget.dataset
-      const { index, item } = this.data
-      this.triggerEvent('clickaction', {
-        value:{
-          type:(这个按钮触发的事件类型，如‘close’),
-          index:(当前的行),
-          item:(当前行的数据)
-        } 
-      })
-    }
-  },
-```
-点击触发自定义事件`clickaction`, 需要传输`{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}`。点击事件使用`catchtap`，不然会触发`bindclicklistitem`事件，看项目需求使用`catchtap`/`bindtap`
-
-* generic:expand-component
-引入组件的代码  
-```html
-<zml-table 
-columns="{{tableColumns}}" 
-dataList="{{dataList}}" 
-scrollViewHeight="700rpx" 
-bindclickaction="handleClickAction"
-bindclickexpand="handleClickExpand" 
-bindscrolltolower="getList" 
-getListLoading="{{getListLoading}}" 
-showTipImage="{{dataList.length===0&!getListLoading}}" 
-tipTitle="暂无兼职人员信息" tipSubtitle="" 
-generic:action-td="action-td" 
-generic:expand-component="expand-component" 
-isExpand="{{true}}" 
-expandValueKey="" 
-initExpandValue="暂无备注" />
-```   
-
-expand-component的目标组件代码
-action-td的目标组件的ts
-```typescript
-  properties: {
-    item: {
-      type: Object,
-      value: {}
-    },
-    index: {
-      type: Number,
-    },
-    dynamicValue: {
-      type: Object,
-      value: {}
-    },
-  },
-  /**
-   * 组件的方法列表
-   */
-  methods: {
-    handleClickItem(e) {
-      const { type } = e.currentTarget.dataset
-      const { index, item } = this.data
-      this.triggerEvent('clickexpand', {
-         value:{
-          type:(这个按钮触发的事件类型，如‘close’),
-          index:(当前的行),
-          item:(当前行的数据)
-        } 
-      })
-    }
-  },
-```
-点击触发自定义事件`clickexpand`, 需要传输`{ value: {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)}}`。
-
-
