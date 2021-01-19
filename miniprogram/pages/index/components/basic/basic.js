@@ -38,6 +38,13 @@ Component({
     },
     methods: {
         options: {},
+        handleClickItem(e) {
+            console.log(e);
+            const { index, item } = e.detail.value;
+            wx.showToast({
+                title: `点击第${index + 1}行`
+            });
+        },
         getList() {
             return __awaiter(this, void 0, void 0, function* () {
                 try {

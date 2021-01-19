@@ -20,6 +20,7 @@ type InitProperty = {
 
 type InitMethod = {
   options: any
+  handleClickItem(e: GlobalData.WxAppletsEvent): void
   getList(): void,
   initComponent(): void
 }
@@ -64,6 +65,13 @@ Component<InitData, InitProperty, InitMethod>({
    */
   methods: {
     options: {},
+    handleClickItem(e) {
+      console.log(e)
+      const { index, item } = e.detail.value
+      wx.showToast({
+        title: `点击第${index + 1}行`
+      })
+    },
     // 获取列表
     async getList() {
       try {
