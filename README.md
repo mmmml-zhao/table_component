@@ -16,7 +16,7 @@
 |tipSubtitle|	无数据时的提示文本副标题 	| string |  暂无数据| false |
 |select|	控制是否出现勾选。 	| boolean | false| false |
 |selectKeys|	勾选的初始值 	| any[] | []| false |
-|generic:action-td|	当列表项内具有操作列，需要在`columns`内添加`key:action`的一项，操作列的内容往往需要自定义，小程序不提供react,vue的`rander函数`，所以使用到了抽象节点，该属性指明抽象节点的组件。操作列位置可以不固定，点击事件由`bindclickaction`触发	| component |undefined | false |
+|generic:action-td|	当列表项内具有操作列，需要在`columns`内添加`type:action`的一项，操作列的内容往往需要自定义，小程序不提供react,vue的`rander函数`，所以使用到了抽象节点，该属性指明抽象节点的组件。操作列位置可以不固定，点击事件由`bindclickaction`触发	| component |undefined | false |
 |isExpand|	控制是否点击展开。 	| boolean | false|false |
 |expandValueKey|	展开信息的key值 	| string | false |
 |initExpandValue|	当展开信息为空时的默认提示语 	| string | '暂无信息' |false |
