@@ -31,3 +31,6 @@
 <layout title="绑定函数介绍" desc="">
   <function></function>
 </layout>
+<layout title="columns" desc="">
+  <columns></columns>
+</layout>

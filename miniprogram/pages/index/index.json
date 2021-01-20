@@ -12,6 +12,7 @@
     "custom-expand": "./components/custom_expand/custom_expand",
     "dynamic-value": "./components/dynamic_value/dynamic_value",
     "parameter": "./components/parameter/parameter",
-    "function": "./components/function/function"
+    "function": "./components/function/function",
+    "columns": "./components/columns/columns"
   }
 }

@@ -21,7 +21,7 @@ Component({
     },
     data: {
         tableColumns: [{
-                title: "绑定事件名",
+                title: "key",
                 key: "key",
             }, {
                 title: "介绍",
@@ -29,6 +29,9 @@ Component({
             }, {
                 title: "类型",
                 key: "type",
+            }, {
+                title: "必填",
+                key: "require",
             }],
         dataList: [],
         getListLoading: false
@@ -42,29 +45,30 @@ Component({
                         getListLoading: true
                     });
                     const res = yield mockData('data', [{
-                            key: 'bindclicklistitem',
-                            desc: '点击列表行事件',
-                            type: 'Function(e);  e.detail.value = {index:number（当前行序号）,item: any（当前行的内容）}'
+                            key: 'title',
+                            desc: '字段名中文含义',
+                            type: 'string',
+                            require: true
                         }, {
-                            key: 'bindclickexpand',
-                            desc: '点击展开内容事件',
-                            type: 'Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在expand-component里)}'
+                            key: 'key',
+                            desc: '字段名',
+                            type: 'string',
+                            require: true
                         }, {
-                            key: 'bindclickaction',
-                            desc: '点击抽象节点事件',
-                            type: 'Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}'
+                            key: 'width',
+                            desc: '单元格宽度',
+                            type: 'string',
+                            require: false
                         }, {
-                            key: 'bindcheckkey',
-                            desc: '勾选事件,返回被勾选项的rowKey数组',
-                            type: 'Function(e); e.detail.value = any[]//(数组内每一项是rowKey字段定义的数据的toString()结果)'
+                            key: 'type',
+                            desc: '判断字段是否是自定义组件',
+                            type: 'action',
+                            require: false
                         }, {
-                            key: 'bindscrolltolower',
-                            desc: '滚动触底',
-                            type: 'Function() '
-                        }, {
-                            key: 'bindscrolltoupper',
-                            desc: '滚动触顶',
-                            type: 'Function() '
+                            key: 'render',
+                            desc: 'td内内容由函数返回 (value: any, item: any, index: number, data?: 当前页面的this.data) => any,// 设置内容',
+                            type: 'function',
+                            require: false
                         }]);
                     this.setData({
                         dataList: res.data,
