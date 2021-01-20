@@ -29,9 +29,9 @@
 
 |事件 | 解释| 类型|
 |-----|-----|-----|
-|bindclicklistitem| 点击列表行事件  |Function(e);  e.detail.value = {index:number（当前行序号）,item: any（当前行的内容）}
-|bindclickexpand| 点击展开内容事件  |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在expand-component里)}
-|bindclickaction| 点击抽象节点事件 |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}
-|bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 |Function(e); e.detail.value = any[]//(数组内每一项是rowKey字段定义的数据的toString()结果)
-|bindscrolltolower| 滚动触底 | Function() 
-|bindscrolltoupper| 滚动触顶 | Function() 
+|bindclicklistitem| 点击列表行事件  |Function(e);  e.detail.value = {index:number（当前行序号）,item: any（当前行的内容）}|  
+|bindclickexpand| 点击展开内容事件  |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在expand-component里)}|  
+|bindclickaction| 点击抽象节点事件 |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}|  
+|bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 |Function(e); e.detail.value = any[]//(数组内每一项是rowKey字段定义的数据的toString()结果)|  
+|bindscrolltolower| 滚动触底 | Function() |  
+|bindscrolltoupper| 滚动触顶 | Function() |
