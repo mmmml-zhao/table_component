@@ -2,7 +2,9 @@
 
 该组件具有 列表展示模式，勾选模式
 
-1. 属性介绍  
+# API
+
+## prop
 
 | 参数 | 说明 | 类型 | 默认值 | 是否必填 |
 |-----|-----|-----|-----|-----|
@@ -25,7 +27,7 @@
 |dynamicValue|	给自定义内容的动态值，用于改变状态 ，建议{value:放的数据}	| object | {} |false |
   
   
-2. 事件介绍  
+## event
 
 |事件 | 解释| 类型|
 |-----|-----|-----|
@@ -35,3 +37,14 @@
 |bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 |Function(e); e.detail.value = any[]//(数组内每一项是rowKey字段定义的数据的toString()结果)|  
 |bindscrolltolower| 滚动触底 | Function() |  
 |bindscrolltoupper| 滚动触顶 | Function() |
+
+## column  
+列描述数据对象，是 columns 中的一项，Column 使用相同的 API。
+    
+|事件 | 解释| 类型| 必填|  
+|-----|-----|-----|-----|
+|title|字段名中文含义|string| true|
+|key|字段名|string| true|
+|width|单元格宽度|string| false|
+|type|判断字段是否是自定义组件|'action'/undefined | false|
+|render|td内内容由函数返回 (value: any, item: any, index: number, data?: 当前页面的this.data) => any,// 设置内容|function| false|
