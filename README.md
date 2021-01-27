@@ -1,6 +1,9 @@
 # 使用说明
 
-该组件具有 列表展示模式，勾选模式
+该组件具有 列表展示模式，勾选模式，展开行模式。
+1. 需要使用插件`miniprogram-computed`(不用也行，只是我项目里都引入了，所以就没动这个，不要使用默认最新版本，会报错Behaviors should be constructed with Behavior()。我用的2.2.0版本。)
+2. 复制`/miniprogram/public/components/public`下面的三个组件，到你的公共组件文件夹下（其实这三个组件也是也可以合为一体，因为empty与load_more组件是可以单独使用的，所以没有放到table组件中）
+3. 在需要使用的页面引入table组件即可。
 
 # API
 

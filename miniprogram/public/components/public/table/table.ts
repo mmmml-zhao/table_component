@@ -1,6 +1,8 @@
 const computedBehavior = require('miniprogram-computed')
-import { getNowPage } from '../../../utils/util'
-
+const getNowPage = () => {
+  const pages = getCurrentPages()
+  return pages[pages.length - 1]
+}
 type InitData = {
   scrollTop: number,
   checkObj: {
@@ -144,7 +146,6 @@ Component<InitData, InitProperty, InitMethod>({
       })
     }
   },
-
 
   /**
    * 组件的方法列表

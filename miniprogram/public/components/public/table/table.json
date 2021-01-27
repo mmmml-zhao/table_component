@@ -3,8 +3,8 @@
   "usingComponents": {
     "zml-tr": "./components/tr/tr",
     "zml-td": "./components/td/td",
-    "zml-empty": "/public/components/public/empty/empty",
-    "zml-load-more": "/public/components/public/load_more/index"
+    "zml-empty": "../empty/empty",
+    "zml-load-more": "../load_more/index"
   },
   "componentGenerics": {
     "action-td": true,

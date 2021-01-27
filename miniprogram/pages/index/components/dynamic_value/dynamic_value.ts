@@ -16,7 +16,7 @@ type InitData = {
 }
 
 type InitProperty = {
-  detail: WechatMiniprogram.Component.FullProperty<ObjectConstructor>
+
 }
 
 type InitMethod = {
@@ -38,10 +38,7 @@ Component<InitData, InitProperty, InitMethod>({
    * 组件的属性列表
    */
   properties: {
-    detail: {
-      type: Object,
-      value: {}
-    }
+
   },
   /**
    * 组件的初始数据

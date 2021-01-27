@@ -1,5 +1,8 @@
 const computedBehavior = require('miniprogram-computed');
-import { getNowPage } from '../../../utils/util';
+const getNowPage = () => {
+    const pages = getCurrentPages();
+    return pages[pages.length - 1];
+};
 Component({
     behaviors: [computedBehavior],
     options: {
@@ -74,7 +77,7 @@ Component({
             const { columns, dataList, rowKey } = data;
             const needReaderColums = columns.filter(item => item.render);
             return dataList.map((item, index) => {
-                let newItem = Object.assign(Object.assign({}, item), { row_key: `${item[rowKey]}` });
+                let newItem = Object.assign({}, item, { row_key: `${item[rowKey]}` });
                 needReaderColums.forEach((item1) => {
                     newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data);
                 });
