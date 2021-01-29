@@ -176,7 +176,6 @@ Component({
             });
         },
         handleTouchEnd(e) {
-            console.log(e);
             const { scrollX, scrollTag } = this.data;
             if (!scrollX)
                 return;

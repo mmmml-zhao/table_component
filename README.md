@@ -18,6 +18,7 @@
 |scrollViewHeight|控制可滚动区域高度。|string| 600rpx|false |
 |tipTitle|	无数据时的提示文本主标题   | string | 提示 | false |
 |tipSubtitle|	无数据时的提示文本副标题 	| string |  暂无数据| false |
+|scrollX|	是否需要X轴滚动。	| boolean | false| false |
 |select|	控制是否出现勾选。 	| boolean | false| false |
 |selectKeys|	勾选的初始值 	| any[] | []| false |
 |generic:action-td|	当列表项内具有操作列，需要在`columns`内添加`type:action`的一项，操作列的内容往往需要自定义，小程序不提供react,vue的`rander函数`，所以使用到了抽象节点，该属性指明抽象节点的组件。操作列位置可以不固定，点击事件由`bindclickaction`触发	| component |undefined | false |
