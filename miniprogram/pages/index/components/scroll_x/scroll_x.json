@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "table": "/public/components/public/table/table"
+  }
+}

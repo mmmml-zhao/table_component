@@ -1,10 +1,14 @@
-function computedTdWidth(columns, select) {
-  if (columns.width) {
-    return columns.width
-  } else if (select) {
-    return 'calc( (calc(100% - 60rpx)) / ' + columns.length + ')'
+function computedTdWidth(columns, column, select, scrollX) {
+  if (column.width) {
+    return column.width
+  } else if (scrollX) {
+    return '200rpx'
   } else {
-    return 'calc( 100% / ' + columns.length + ')'
+    if (select) {
+      return 'calc( (calc(100% - 60rpx)) / ' + columns.length + ')'
+    } else {
+      return 'calc( 100% / ' + columns.length + ')'
+    }
   }
 }
 

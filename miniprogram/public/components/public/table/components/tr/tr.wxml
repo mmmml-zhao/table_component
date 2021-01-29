@@ -6,7 +6,7 @@
       <checkbox checked="{{checked}}" catchtap="handleClickCheck" data-item="{{item}}" data-index="{{index}}" />
     </view>
     <block wx:for="{{columns}}" wx:for-index="cIndex" wx:for-item="cItem" wx:key="key">
-      <view class="td" style="width:{{table.computedTdWidth(columns,select)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" data-key="{{cItem.key}}" data-index="{{index}}" wx:if="{{cItem.type!=='action'}}">
+      <view class="td" style="width:{{table.computedTdWidth(columns,cItem,select,scrollX)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" data-key="{{cItem.key}}" data-index="{{index}}" wx:if="{{cItem.type!=='action'}}">
         {{item[cItem.key]}}
       </view>
       <view class="action-td" style="width:{{table.computedTdWidth(columns,select)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" wx:else>

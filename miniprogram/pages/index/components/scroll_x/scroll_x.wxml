@@ -1,0 +1,1 @@
+<table class="basic-table" scrollX="{{true}}" columns="{{tableColumns}}" dataList="{{dataList}}" getListLoading="{{getListLoading}}" showTipImage="{{dataList.length===0&!getListLoading}}" bindclicklistitem="handleClickItem" />

@@ -2,6 +2,19 @@ const getNowPage = () => {
     const pages = getCurrentPages();
     return pages[pages.length - 1];
 };
+function debounce(fun, delay) {
+    let timer = null;
+    return function (...args) {
+        let _this = this;
+        let _args = args;
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(function () {
+            fun.call(_this, ..._args);
+        }, delay);
+    };
+}
 Component({
     options: {
         addGlobalClass: true,
@@ -14,6 +27,10 @@ Component({
         scrollViewHeight: {
             type: String,
             value: '600rpx'
+        },
+        scrollX: {
+            type: Boolean,
+            value: false
         },
         columns: {
             type: Array,
@@ -68,6 +85,10 @@ Component({
     },
     data: {
         scrollTop: 0,
+        scrollLeftHeader: 0,
+        scrollLeftContent: 0,
+        scrollTag: null,
+        touchStatus: 'end',
         checkObj: {},
     },
     observers: {
@@ -106,6 +127,64 @@ Component({
         setScrollTop() {
             this.setData({
                 scrollTop: 0
+            });
+        },
+        setScrollLeft(e) {
+            const { tag } = e.currentTarget.dataset;
+            const { scrollLeft } = e.detail;
+            const { scrollTag } = this.data;
+            if (tag !== scrollTag)
+                return;
+            if (tag === 'header') {
+                this.setData({
+                    scrollLeftContent: scrollLeft
+                });
+            }
+            else if (tag === 'content') {
+                this.setData({
+                    scrollLeftHeader: scrollLeft
+                });
+            }
+        },
+        clearScrollTag: debounce(function (e) {
+            const { touchStatus } = this.data;
+            if (touchStatus === 'start')
+                return;
+            this.setData({
+                scrollTag: null
+            });
+        }, 100),
+        handleScroll(e) {
+            const { scrollX, touchStatus } = this.data;
+            if (!scrollX)
+                return;
+            this.setScrollLeft(e);
+            if (touchStatus === 'end') {
+                this.clearScrollTag(e);
+            }
+        },
+        handleTouchStart(e) {
+            const { scrollX, scrollTag, touchStatus } = this.data;
+            if (!scrollX)
+                return;
+            if (scrollTag || touchStatus === 'start')
+                return;
+            const { tag } = e.currentTarget.dataset;
+            this.setData({
+                touchStatus: 'start',
+                scrollTag: tag,
+            });
+        },
+        handleTouchEnd(e) {
+            console.log(e);
+            const { scrollX, scrollTag } = this.data;
+            if (!scrollX)
+                return;
+            const { tag } = e.currentTarget.dataset;
+            if (tag !== scrollTag)
+                return;
+            this.setData({
+                touchStatus: 'end'
             });
         },
         handleScrolltolower() {

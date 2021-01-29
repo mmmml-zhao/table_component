@@ -12,6 +12,7 @@ type InitProperty = {
   item: WechatMiniprogram.Component.FullProperty<ObjectConstructor>,
   index: WechatMiniprogram.Component.FullProperty<NumberConstructor>,
   select: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
+  scrollX: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
   checked: WechatMiniprogram.Component.FullProperty<BooleanConstructor>
   isExpand: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
   expandValueKey: WechatMiniprogram.Component.FullProperty<StringConstructor>,
@@ -54,6 +55,10 @@ Component<InitData, InitProperty, InitMethod>({
       type: Number,
     },// 当前数据的序号
     select: {
+      type: Boolean,
+      value: false
+    }, // 是否开启勾选
+    scrollX: {
       type: Boolean,
       value: false
     }, // 是否开启勾选

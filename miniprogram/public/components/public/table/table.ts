@@ -2,8 +2,29 @@ const getNowPage = () => {
   const pages = getCurrentPages()
   return pages[pages.length - 1]
 }
+
+function debounce(fun: (...args: any) => void, delay: number) {
+  let timer: number | null = null
+  return function (this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, ...args: any) {
+    let _this = this
+    let _args = args
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(function () {
+      fun.call(_this, ..._args)
+    }, delay)
+  }
+}
+
+
+
 type InitData = {
   scrollTop: number,
+  scrollLeftHeader: number,
+  scrollLeftContent: number,
+  scrollTag: 'content' | 'header' | null,
+  touchStatus: 'start' | 'end'
   checkObj: {
     [key: string]: boolean,
   } // 用于存储勾选信息
@@ -12,6 +33,7 @@ type InitData = {
 type InitProperty = {
   rowKey: WechatMiniprogram.Component.FullProperty<StringConstructor>,
   scrollViewHeight: WechatMiniprogram.Component.FullProperty<StringConstructor>,
+  scrollX: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
   columns: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
   dataList: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
   getListLoading: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
@@ -30,6 +52,11 @@ type InitProperty = {
 type InitMethod = {
   createShowDataList(): void
   setScrollTop(): void,
+  setScrollLeft(e: GlobalData.WxAppletsEvent): void,
+  clearScrollTag(e: GlobalData.WxAppletsEvent): void,
+  handleScroll(e: GlobalData.WxAppletsEvent): void
+  handleTouchStart(e: GlobalData.WxAppletsEvent): void
+  handleTouchEnd(e: GlobalData.WxAppletsEvent): void
   handleScrolltolower(): void,
   handleScrolltoupper(): void,
   handleClickListItem(e: GlobalData.WxAppletsEvent): void,
@@ -55,6 +82,10 @@ Component<InitData, InitProperty, InitMethod>({
       type: String,
       value: '600rpx'
     }, // 表格数据块高度
+    scrollX: {
+      type: Boolean,
+      value: false
+    }, // 指明datalist里item的哪一项可以用作是key
     columns: {
       type: Array,
       value: []
@@ -111,6 +142,10 @@ Component<InitData, InitProperty, InitMethod>({
    */
   data: {
     scrollTop: 0,// 设置回到顶部
+    scrollLeftHeader: 0,
+    scrollLeftContent: 0,
+    scrollTag: null,
+    touchStatus: 'end',
     checkObj: {},// 勾选的项的存储对象
   },
   observers: {
@@ -155,6 +190,64 @@ Component<InitData, InitProperty, InitMethod>({
     setScrollTop() {
       this.setData({
         scrollTop: 0
+      })
+    },
+    // 主要是为了监听横向滚动
+    setScrollLeft(this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, e: GlobalData.WxAppletsEvent) {
+      // console.log(`setScrollLeft`, e)
+      const { tag } = e.currentTarget.dataset
+      const { scrollLeft } = e.detail
+      const { scrollTag } = this.data
+      if (tag !== scrollTag) return
+      if (tag === 'header') {
+        this.setData({
+          scrollLeftContent: scrollLeft
+        })
+      } else if (tag === 'content') {
+        this.setData({
+          scrollLeftHeader: scrollLeft
+        })
+      }
+    },
+    // 主要是为了监听横向滚动 当手指离开屏幕，处于最后的滑动时 触发防抖 监听最后一次清除滚动对象
+    clearScrollTag: debounce(function (this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, e) {
+      const { touchStatus } = this.data
+      // 也许用户又开始下一次的滚动了 所以要清除这个命令 只有在用户手指离开屏幕才会清除滚动对象
+      if (touchStatus === 'start') return
+      this.setData({
+        scrollTag: null
+      })
+    }, 100),
+    // 主要是为了监听横向滚动
+    handleScroll(e) {
+      // console.log(`handleScroll`, e)
+      const { scrollX, touchStatus } = this.data
+      if (!scrollX) return
+      this.setScrollLeft(e)
+      if (touchStatus === 'end') {
+        this.clearScrollTag(e)
+      }
+    },
+    // 主要是为了监听横向滚动
+    handleTouchStart(e) {
+      const { scrollX, scrollTag, touchStatus } = this.data
+      if (!scrollX) return
+      if (scrollTag || touchStatus === 'start') return
+      const { tag } = e.currentTarget.dataset
+      this.setData({
+        touchStatus: 'start',
+        scrollTag: tag,
+      })
+    },
+    // 主要是为了监听横向滚动
+    handleTouchEnd(e) {
+      console.log(e)
+      const { scrollX, scrollTag } = this.data
+      if (!scrollX) return
+      const { tag } = e.currentTarget.dataset
+      if (tag !== scrollTag) return
+      this.setData({
+        touchStatus: 'end'
       })
     },
     // 滚动到底部触发
