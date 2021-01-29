@@ -12,8 +12,6 @@ type InitData = {
   pageSize: number, // 单页数量 
   pageCount: number,// 总页数
   getListLoading: boolean,
-  tableScrollViewHeight: string,
-  initSelectKeys: number[]
 }
 
 type InitProperty = {
@@ -22,12 +20,11 @@ type InitProperty = {
 
 type InitMethod = {
   options: any
-  handleClickInitCheck(): void
-  handleCheckTable(e: GlobalData.WxAppletsEvent): void,
+  handleClickItem(e: GlobalData.WxAppletsEvent): void
   getList(): void,
-  getTableScrollViewHeight(): void
   initComponent(): void
 }
+
 
 
 Component<InitData, InitProperty, InitMethod>({
@@ -53,28 +50,34 @@ Component<InitData, InitProperty, InitMethod>({
     }, {
       title: "性别",
       key: "sex",
+    }, {
+      title: "额外属性1",
+      key: "prototype1",
+    }, {
+      title: "额外属性2额外属性2额外属性2额外属性2",
+      key: "prototype2",
+    }, {
+      title: "额外属性3额外属性3额外属性3额外属性3",
+      key: "prototype3",
+      width: "300rpx"
     }],// table 表头参数
     dataList: [],// 学校数组
     pageNum: 1,
     pageSize: 10,
     pageCount: 1,
     getListLoading: false,
-    tableScrollViewHeight: '800rpx',
-    initSelectKeys: [2, 4, 15]
   },
   /**
    * 组件的方法列表
    */
   methods: {
     options: {},
-    // 重置勾选
-    handleClickInitCheck() {
-      this.setData({
-        initSelectKeys: [2, 4, 15]
-      })
-    },
-    handleCheckTable(e) {
+    handleClickItem(e) {
       console.log(e)
+      const { index, item } = e.detail.value
+      wx.showToast({
+        title: `点击第${index + 1}行`
+      })
     },
     // 获取列表
     async getList() {
@@ -90,12 +93,12 @@ Component<InitData, InitProperty, InitMethod>({
           name: '兼职人员',
           age: 10,
           sex: '男',
+          prototype1: '属性一',
+          prototype2: '属性二很长没有设置宽度',
+          prototype3: '属性三很长设置了宽度',
         }, "name", pageNum, pageSize)
         this.setData({
-          dataList: dataList.concat(res.data.list.map((item, index) => ({
-            ...item,
-            check_id: ((pageNum - 1) * pageSize) + index + 1
-          }))),
+          dataList: dataList.concat(res.data.list),
           pageCount: res.data.pageCount,
           getListLoading: false,
           pageNum: res.data.list.length > 0 ? pageNum + 1 : pageNum,
@@ -107,19 +110,8 @@ Component<InitData, InitProperty, InitMethod>({
         console.log(e)
       }
     },
-    getTableScrollViewHeight() {
-      // const pageConfig = wx.
-      const node = this.createSelectorQuery().select('.basic-table >>> .tr-th')
-      const { pageConfig } = app.globalData
-      node.boundingClientRect((rect) => {
-        this.setData({
-          tableScrollViewHeight: rect ? `calc(100vh - ${600 + rect.height / pageConfig.pixelRate}rpx)` : ''
-        })
-      }).exec()
-    },
     initComponent() {
       this.getList()
-      this.getTableScrollViewHeight()
     },
   },
   lifetimes: {

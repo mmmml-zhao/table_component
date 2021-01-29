@@ -24,6 +24,16 @@ Component({
             }, {
                 title: "性别",
                 key: "sex",
+            }, {
+                title: "额外属性1",
+                key: "prototype1",
+            }, {
+                title: "额外属性2额外属性2额外属性2额外属性2",
+                key: "prototype2",
+            }, {
+                title: "额外属性3额外属性3额外属性3额外属性3",
+                key: "prototype3",
+                width: "300rpx"
             }],
         dataList: [],
         pageNum: 1,
@@ -56,6 +66,9 @@ Component({
                         name: '兼职人员',
                         age: 10,
                         sex: '男',
+                        prototype1: '属性一',
+                        prototype2: '属性二很长没有设置宽度',
+                        prototype3: '属性三很长设置了宽度',
                     }, "name", pageNum, pageSize);
                     this.setData({
                         dataList: dataList.concat(res.data.list),

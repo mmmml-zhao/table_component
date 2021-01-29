@@ -23,6 +23,10 @@ Component({
             type: Boolean,
             value: false
         },
+        scrollX: {
+            type: Boolean,
+            value: false
+        },
         checked: {
             type: Boolean,
             value: false

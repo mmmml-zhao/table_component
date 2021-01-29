@@ -7,6 +7,9 @@
 <layout title="设置滚动区域高度" desc="需要给滚动区域设置固定的高度时请设置scrollViewHeight字段,字段内容和css的height相同,如果不需要滚动效果,则设置为auto">
   <set-height></set-height>
 </layout>
+<layout title="设置横向滚动" desc="当表格项过多，可以开启横向滚动。">
+  <scroll-x></scroll-x>
+</layout>
 <layout title="上拉加载与下拉重置刷新" desc="使用bindscrolltolower与bindscrolltoupper两个事件。">
   <scroll-to-lower-and-upper></scroll-to-lower-and-upper>
 </layout>

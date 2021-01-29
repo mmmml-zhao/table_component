@@ -1,10 +1,21 @@
-const computedBehavior = require('miniprogram-computed');
 const getNowPage = () => {
     const pages = getCurrentPages();
     return pages[pages.length - 1];
 };
+function debounce(fun, delay) {
+    let timer = null;
+    return function (...args) {
+        let _this = this;
+        let _args = args;
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(function () {
+            fun.call(_this, ..._args);
+        }, delay);
+    };
+}
 Component({
-    behaviors: [computedBehavior],
     options: {
         addGlobalClass: true,
     },
@@ -16,6 +27,10 @@ Component({
         scrollViewHeight: {
             type: String,
             value: '600rpx'
+        },
+        scrollX: {
+            type: Boolean,
+            value: false
         },
         columns: {
             type: Array,
@@ -70,25 +85,16 @@ Component({
     },
     data: {
         scrollTop: 0,
+        scrollLeftHeader: 0,
+        scrollLeftContent: 0,
+        scrollTag: null,
+        touchStatus: 'end',
         checkObj: {},
     },
-    computed: {
-        showDataList(data) {
-            const { columns, dataList, rowKey } = data;
-            const needReaderColums = columns.filter(item => item.render);
-            return dataList.map((item, index) => {
-                let newItem = Object.assign({}, item, { row_key: `${item[rowKey]}` });
-                needReaderColums.forEach((item1) => {
-                    newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data);
-                });
-                return newItem;
-            });
-        }
-    },
-    watch: {
+    observers: {
         'dataList': function (dataList) {
             if (dataList && dataList.length > 0) {
-                return;
+                this.createShowDataList();
             }
             else {
                 this.setScrollTop();
@@ -105,9 +111,80 @@ Component({
         }
     },
     methods: {
+        createShowDataList() {
+            const { columns, dataList, rowKey } = this.data;
+            const needReaderColums = columns.filter(item => item.render);
+            this.setData({
+                showDataList: dataList.map((item, index) => {
+                    let newItem = Object.assign(Object.assign({}, item), { row_key: `${item[rowKey]}` });
+                    needReaderColums.forEach((item1) => {
+                        newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data);
+                    });
+                    return newItem;
+                })
+            });
+        },
         setScrollTop() {
             this.setData({
                 scrollTop: 0
+            });
+        },
+        setScrollLeft(e) {
+            const { tag } = e.currentTarget.dataset;
+            const { scrollLeft } = e.detail;
+            const { scrollTag } = this.data;
+            if (tag !== scrollTag)
+                return;
+            if (tag === 'header') {
+                this.setData({
+                    scrollLeftContent: scrollLeft
+                });
+            }
+            else if (tag === 'content') {
+                this.setData({
+                    scrollLeftHeader: scrollLeft
+                });
+            }
+        },
+        clearScrollTag: debounce(function (e) {
+            const { touchStatus } = this.data;
+            if (touchStatus === 'start')
+                return;
+            this.setData({
+                scrollTag: null
+            });
+        }, 100),
+        handleScroll(e) {
+            const { scrollX, touchStatus } = this.data;
+            if (!scrollX)
+                return;
+            this.setScrollLeft(e);
+            if (touchStatus === 'end') {
+                this.clearScrollTag(e);
+            }
+        },
+        handleTouchStart(e) {
+            const { scrollX, scrollTag, touchStatus } = this.data;
+            if (!scrollX)
+                return;
+            if (scrollTag || touchStatus === 'start')
+                return;
+            const { tag } = e.currentTarget.dataset;
+            this.setData({
+                touchStatus: 'start',
+                scrollTag: tag,
+            });
+        },
+        handleTouchEnd(e) {
+            console.log(e);
+            const { scrollX, scrollTag } = this.data;
+            if (!scrollX)
+                return;
+            const { tag } = e.currentTarget.dataset;
+            if (tag !== scrollTag)
+                return;
+            this.setData({
+                touchStatus: 'end'
             });
         },
         handleScrolltolower() {
@@ -156,7 +233,7 @@ Component({
         tipFc() {
             const { rowKey, columns } = this.data;
             if (!rowKey) {
-                console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是computed中设置的row_key字段');
+                console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是createShowDataList中设置的row_key字段');
             }
             if (!columns) {
                 console.error('table组件必须指明columns');

@@ -2,7 +2,6 @@
   "component": true,
   "usingComponents": {
     "zml-tr": "./components/tr/tr",
-    "zml-td": "./components/td/td",
     "zml-empty": "../empty/empty",
     "zml-load-more": "../load_more/index"
   },

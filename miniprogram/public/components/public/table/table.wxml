@@ -1,16 +1,20 @@
 <wxs src="./table.wxs" module="table" />
 <view class="list">
-  <view class="tr tr-th">
-    <view class="th select" hidden="{{!select}}"></view>
-    <view class="th" style="width:{{table.computedTdWidth(columns,select)}};{{index===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" wx:for="{{columns}}" wx:key="key">
-      {{item.title}}
+  <scroll-view class="table-header" scroll-x="{{scrollX}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd" data-tag="header" scroll-left="{{scrollLeftHeader}}">
+    <view class="inline-block">
+      <view class="tr tr-th">
+        <view class="th select" wx:if="{{select}}"></view>
+        <view class="th" style="width:{{table.computedTdWidth(columns,item, select,scrollX)}};{{index===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" wx:for="{{columns}}" wx:key="key">
+          {{item.title}}
+        </view>
+      </view>
     </view>
-  </view>
-  <scroll-view class="scroll-view" scroll-y scroll-top="{{scrollTop}}" style="height:{{scrollViewHeight}}" bindscrolltolower="handleScrolltolower" bindscrolltoupper="handleScrolltoupper" upper-threshold="{{0}}" lower-threshold="{{100}}">
-    <block wx:if="{{!showTipImage}}">
-      <zml-tr bindclicklistitem="handleClickListItem" bindclickaction="handleClickAction" bindclickexpand="handleClickExpand" bindcheckkey="handleClickCheck" wx:for="{{showDataList}}" wx:key="row_key" data-rowkey="{{item[rowKey]}}" rowKey="{{rowKey}}" columns="{{columns}}" item="{{item}}" index="{{index}}" select="{{select}}" checked="{{checkObj[item[rowKey]]}}" isExpand="{{isExpand}}" expandValueKey="{{expandValueKey}}" initExpandValue="{{initExpandValue}}" dynamicValue="{{dynamicValue}}" generic:action-td="action-td" generic:expand-component="expand-component"></zml-tr>
+  </scroll-view>
+  <scroll-view class="scroll-view" scroll-y scroll-x="{{scrollX}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd" data-tag="content" scroll-left="{{scrollLeftContent}}" scroll-top="{{scrollTop}}" style="height:{{scrollViewHeight}}" bindscrolltolower="handleScrolltolower" bindscrolltoupper="handleScrolltoupper" upper-threshold="{{0}}" lower-threshold="{{100}}">
+    <view class="table-content" wx:if="{{!showTipImage}}">
+      <zml-tr bindclicklistitem="handleClickListItem" bindclickaction="handleClickAction" bindclickexpand="handleClickExpand" bindcheckkey="handleClickCheck" wx:for="{{showDataList}}" wx:key="row_key" data-rowkey="{{item[rowKey]}}" rowKey="{{rowKey}}" columns="{{columns}}" item="{{item}}" index="{{index}}" select="{{select}}" scrollX="{{scrollX}}" checked="{{checkObj[item[rowKey]]}}" isExpand="{{isExpand}}" expandValueKey="{{expandValueKey}}" initExpandValue="{{initExpandValue}}" dynamicValue="{{dynamicValue}}" generic:action-td="action-td" generic:expand-component="expand-component"></zml-tr>
       <zml-load-more tip="{{getListLoading?'请求中':'暂无更多数据'}}" loading="{{ getListLoading }}" />
-    </block>
+    </view>
     <zml-empty show="{{showTipImage}}" text="{{tipTitle}}" subText="{{tipSubtitle}}"></zml-empty>
   </scroll-view>
 </view>

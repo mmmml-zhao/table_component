@@ -1,8 +1,9 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -30,9 +31,15 @@ Component({
         pageCount: 1,
         getListLoading: false,
         tableScrollViewHeight: '800rpx',
+        initSelectKeys: [2, 4, 15]
     },
     methods: {
         options: {},
+        handleClickInitCheck() {
+            this.setData({
+                initSelectKeys: [2, 4, 15]
+            });
+        },
         handleCheckTable(e) {
             console.log(e);
         },
@@ -54,7 +61,7 @@ Component({
                         sex: '男',
                     }, "name", pageNum, pageSize);
                     this.setData({
-                        dataList: dataList.concat(res.data.list.map((item, index) => (Object.assign({}, item, { check_id: ((pageNum - 1) * pageSize) + index + 1 })))),
+                        dataList: dataList.concat(res.data.list.map((item, index) => (Object.assign(Object.assign({}, item), { check_id: ((pageNum - 1) * pageSize) + index + 1 })))),
                         pageCount: res.data.pageCount,
                         getListLoading: false,
                         pageNum: res.data.list.length > 0 ? pageNum + 1 : pageNum,

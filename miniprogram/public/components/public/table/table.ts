@@ -1,10 +1,30 @@
-const computedBehavior = require('miniprogram-computed')
 const getNowPage = () => {
   const pages = getCurrentPages()
   return pages[pages.length - 1]
 }
+
+function debounce(fun: (...args: any) => void, delay: number) {
+  let timer: number | null = null
+  return function (this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, ...args: any) {
+    let _this = this
+    let _args = args
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(function () {
+      fun.call(_this, ..._args)
+    }, delay)
+  }
+}
+
+
+
 type InitData = {
   scrollTop: number,
+  scrollLeftHeader: number,
+  scrollLeftContent: number,
+  scrollTag: 'content' | 'header' | null,
+  touchStatus: 'start' | 'end'
   checkObj: {
     [key: string]: boolean,
   } // 用于存储勾选信息
@@ -13,6 +33,7 @@ type InitData = {
 type InitProperty = {
   rowKey: WechatMiniprogram.Component.FullProperty<StringConstructor>,
   scrollViewHeight: WechatMiniprogram.Component.FullProperty<StringConstructor>,
+  scrollX: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
   columns: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
   dataList: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
   getListLoading: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
@@ -29,7 +50,13 @@ type InitProperty = {
 }
 
 type InitMethod = {
+  createShowDataList(): void
   setScrollTop(): void,
+  setScrollLeft(e: GlobalData.WxAppletsEvent): void,
+  clearScrollTag(e: GlobalData.WxAppletsEvent): void,
+  handleScroll(e: GlobalData.WxAppletsEvent): void
+  handleTouchStart(e: GlobalData.WxAppletsEvent): void
+  handleTouchEnd(e: GlobalData.WxAppletsEvent): void
   handleScrolltolower(): void,
   handleScrolltoupper(): void,
   handleClickListItem(e: GlobalData.WxAppletsEvent): void,
@@ -40,7 +67,6 @@ type InitMethod = {
 }
 
 Component<InitData, InitProperty, InitMethod>({
-  behaviors: [computedBehavior],
   options: {
     addGlobalClass: true,
   },
@@ -56,6 +82,10 @@ Component<InitData, InitProperty, InitMethod>({
       type: String,
       value: '600rpx'
     }, // 表格数据块高度
+    scrollX: {
+      type: Boolean,
+      value: false
+    }, // 指明datalist里item的哪一项可以用作是key
     columns: {
       type: Array,
       value: []
@@ -105,32 +135,23 @@ Component<InitData, InitProperty, InitMethod>({
       type: Object,
       optionalTypes: [Array, String, Number, Boolean, null],
       value: {}
-    },// 给action-td传动态值
+    },// 给action-td/expand-component传动态值
   },
   /**
    * 组件的初始数据
    */
   data: {
     scrollTop: 0,// 设置回到顶部
+    scrollLeftHeader: 0,
+    scrollLeftContent: 0,
+    scrollTag: null,
+    touchStatus: 'end',
     checkObj: {},// 勾选的项的存储对象
   },
-  computed: {
-    showDataList(data: InitData & WechatMiniprogram.Component.PropertyOptionToData<InitProperty>) {
-      const { columns, dataList, rowKey } = data
-      const needReaderColums = columns.filter(item => item.render)
-      return dataList.map((item, index) => {
-        let newItem = { ...item, row_key: `${item[rowKey]}` }
-        needReaderColums.forEach((item1) => {
-          newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data)
-        })
-        return newItem
-      })
-    }
-  },
-  watch: {
+  observers: {
     'dataList': function (dataList: any[]) {
       if (dataList && dataList.length > 0) {
-        return
+        this.createShowDataList()
       } else {
         this.setScrollTop()
       }
@@ -151,10 +172,82 @@ Component<InitData, InitProperty, InitMethod>({
    * 组件的方法列表
    */
   methods: {
+    // 创建展示列表
+    createShowDataList() {
+      const { columns, dataList, rowKey } = this.data
+      const needReaderColums = columns.filter(item => item.render)
+      this.setData({
+        showDataList: dataList.map((item, index) => {
+          let newItem = { ...item, row_key: `${item[rowKey]}` }
+          needReaderColums.forEach((item1) => {
+            newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data)
+          })
+          return newItem
+        })
+      })
+    },
     // 设置当列表清空 滚回顶部
     setScrollTop() {
       this.setData({
         scrollTop: 0
+      })
+    },
+    // 主要是为了监听横向滚动
+    setScrollLeft(this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, e: GlobalData.WxAppletsEvent) {
+      // console.log(`setScrollLeft`, e)
+      const { tag } = e.currentTarget.dataset
+      const { scrollLeft } = e.detail
+      const { scrollTag } = this.data
+      if (tag !== scrollTag) return
+      if (tag === 'header') {
+        this.setData({
+          scrollLeftContent: scrollLeft
+        })
+      } else if (tag === 'content') {
+        this.setData({
+          scrollLeftHeader: scrollLeft
+        })
+      }
+    },
+    // 主要是为了监听横向滚动 当手指离开屏幕，处于最后的滑动时 触发防抖 监听最后一次清除滚动对象
+    clearScrollTag: debounce(function (this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>, e) {
+      const { touchStatus } = this.data
+      // 也许用户又开始下一次的滚动了 所以要清除这个命令 只有在用户手指离开屏幕才会清除滚动对象
+      if (touchStatus === 'start') return
+      this.setData({
+        scrollTag: null
+      })
+    }, 100),
+    // 主要是为了监听横向滚动
+    handleScroll(e) {
+      // console.log(`handleScroll`, e)
+      const { scrollX, touchStatus } = this.data
+      if (!scrollX) return
+      this.setScrollLeft(e)
+      if (touchStatus === 'end') {
+        this.clearScrollTag(e)
+      }
+    },
+    // 主要是为了监听横向滚动
+    handleTouchStart(e) {
+      const { scrollX, scrollTag, touchStatus } = this.data
+      if (!scrollX) return
+      if (scrollTag || touchStatus === 'start') return
+      const { tag } = e.currentTarget.dataset
+      this.setData({
+        touchStatus: 'start',
+        scrollTag: tag,
+      })
+    },
+    // 主要是为了监听横向滚动
+    handleTouchEnd(e) {
+      console.log(e)
+      const { scrollX, scrollTag } = this.data
+      if (!scrollX) return
+      const { tag } = e.currentTarget.dataset
+      if (tag !== scrollTag) return
+      this.setData({
+        touchStatus: 'end'
       })
     },
     // 滚动到底部触发
@@ -210,7 +303,7 @@ Component<InitData, InitProperty, InitMethod>({
     tipFc() {
       const { rowKey, columns } = this.data
       if (!rowKey) {
-        console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是computed中设置的row_key字段')
+        console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是createShowDataList中设置的row_key字段')
       }
       if (!columns) {
         console.error('table组件必须指明columns')
