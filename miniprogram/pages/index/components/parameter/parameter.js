@@ -91,6 +91,12 @@ Component({
                             init: `暂无数据`,
                             require: false,
                         }, {
+                            key: 'scrollX',
+                            desc: '是否需要X轴滚动',
+                            type: 'boolean',
+                            init: `false`,
+                            require: false,
+                        }, {
                             key: 'select',
                             desc: '控制是否出现勾选。',
                             type: 'boolean',

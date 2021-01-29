@@ -241,7 +241,7 @@ Component<InitData, InitProperty, InitMethod>({
     },
     // 主要是为了监听横向滚动
     handleTouchEnd(e) {
-      console.log(e)
+      // console.log(e)
       const { scrollX, scrollTag } = this.data
       if (!scrollX) return
       const { tag } = e.currentTarget.dataset
