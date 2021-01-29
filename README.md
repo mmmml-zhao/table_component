@@ -4,6 +4,9 @@
 1. 复制`/miniprogram/public/components/public`下面的三个组件，到你的公共组件文件夹下（其实这三个组件也是也可以合为一体，因为empty与load_more组件是可以单独使用的，所以没有放到table组件中）
 2. 在需要使用的页面引入table组件即可。
 
+# 示例小程序
+![小程序图片](https://mmbiz.qpic.cn/mmbiz_jpg/NNDgcXA2O90eRXGPicjGqcvetdnNgk8icDpnBcxoEtEwSQgibXmib0LnB2icLYGtGlW5NE30N1fn4M0f165MkxcicoOg/0?wx_fmt=jpeg)
+
 # API
 
 ## prop
