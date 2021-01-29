@@ -13,4 +13,4 @@
     </block>
     <zml-empty show="{{showTipImage}}" text="{{tipTitle}}" subText="{{tipSubtitle}}"></zml-empty>
   </scroll-view>
-</view>
+</view> 

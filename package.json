@@ -10,8 +10,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@types/wechat-miniprogram": "^3.2.0",
-    "miniprogram-computed": "^2.2.0"
+    "@types/wechat-miniprogram": "^3.2.0"
   },
   "devDependencies": {
     "miniprogram-api-typings": "^2.12.0",

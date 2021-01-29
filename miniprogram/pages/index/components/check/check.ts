@@ -13,6 +13,7 @@ type InitData = {
   pageCount: number,// 总页数
   getListLoading: boolean,
   tableScrollViewHeight: string,
+  initSelectKeys: number[]
 }
 
 type InitProperty = {
@@ -21,6 +22,7 @@ type InitProperty = {
 
 type InitMethod = {
   options: any
+  handleClickInitCheck(): void
   handleCheckTable(e: GlobalData.WxAppletsEvent): void,
   getList(): void,
   getTableScrollViewHeight(): void
@@ -58,12 +60,19 @@ Component<InitData, InitProperty, InitMethod>({
     pageCount: 1,
     getListLoading: false,
     tableScrollViewHeight: '800rpx',
+    initSelectKeys: [2, 4, 15]
   },
   /**
    * 组件的方法列表
    */
   methods: {
     options: {},
+    // 重置勾选
+    handleClickInitCheck() {
+      this.setData({
+        initSelectKeys: [2, 4, 15]
+      })
+    },
     handleCheckTable(e) {
       console.log(e)
     },
@@ -98,7 +107,6 @@ Component<InitData, InitProperty, InitMethod>({
         console.log(e)
       }
     },
-
     getTableScrollViewHeight() {
       // const pageConfig = wx.
       const node = this.createSelectorQuery().select('.basic-table >>> .tr-th')

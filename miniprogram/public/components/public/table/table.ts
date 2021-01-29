@@ -1,4 +1,3 @@
-const computedBehavior = require('miniprogram-computed')
 const getNowPage = () => {
   const pages = getCurrentPages()
   return pages[pages.length - 1]
@@ -29,6 +28,7 @@ type InitProperty = {
 }
 
 type InitMethod = {
+  createShowDataList(): void
   setScrollTop(): void,
   handleScrolltolower(): void,
   handleScrolltoupper(): void,
@@ -40,7 +40,6 @@ type InitMethod = {
 }
 
 Component<InitData, InitProperty, InitMethod>({
-  behaviors: [computedBehavior],
   options: {
     addGlobalClass: true,
   },
@@ -105,7 +104,7 @@ Component<InitData, InitProperty, InitMethod>({
       type: Object,
       optionalTypes: [Array, String, Number, Boolean, null],
       value: {}
-    },// 给action-td传动态值
+    },// 给action-td/expand-component传动态值
   },
   /**
    * 组件的初始数据
@@ -114,23 +113,10 @@ Component<InitData, InitProperty, InitMethod>({
     scrollTop: 0,// 设置回到顶部
     checkObj: {},// 勾选的项的存储对象
   },
-  computed: {
-    showDataList(data: InitData & WechatMiniprogram.Component.PropertyOptionToData<InitProperty>) {
-      const { columns, dataList, rowKey } = data
-      const needReaderColums = columns.filter(item => item.render)
-      return dataList.map((item, index) => {
-        let newItem = { ...item, row_key: `${item[rowKey]}` }
-        needReaderColums.forEach((item1) => {
-          newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data)
-        })
-        return newItem
-      })
-    }
-  },
-  watch: {
+  observers: {
     'dataList': function (dataList: any[]) {
       if (dataList && dataList.length > 0) {
-        return
+        this.createShowDataList()
       } else {
         this.setScrollTop()
       }
@@ -151,6 +137,20 @@ Component<InitData, InitProperty, InitMethod>({
    * 组件的方法列表
    */
   methods: {
+    // 创建展示列表
+    createShowDataList() {
+      const { columns, dataList, rowKey } = this.data
+      const needReaderColums = columns.filter(item => item.render)
+      this.setData({
+        showDataList: dataList.map((item, index) => {
+          let newItem = { ...item, row_key: `${item[rowKey]}` }
+          needReaderColums.forEach((item1) => {
+            newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data)
+          })
+          return newItem
+        })
+      })
+    },
     // 设置当列表清空 滚回顶部
     setScrollTop() {
       this.setData({
@@ -210,7 +210,7 @@ Component<InitData, InitProperty, InitMethod>({
     tipFc() {
       const { rowKey, columns } = this.data
       if (!rowKey) {
-        console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是computed中设置的row_key字段')
+        console.error('table组件必须指明每一行的唯一标识的字段名，且必须为字符串，数字将会被转为字符串,for循环中的wx:key不使用该字段，用的是createShowDataList中设置的row_key字段')
       }
       if (!columns) {
         console.error('table组件必须指明columns')

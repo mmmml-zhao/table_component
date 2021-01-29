@@ -1,6 +1,9 @@
 <view class="tip">
   移动端的页面本应该很少有table表格这样的展示、操作，但总归有这样的需求，然而平时用的vant和iview的小程序组件库都没有table组件，这里将自己编写的table组件展示一下供大家查看。
 </view>
+<layout title="勾选" desc="设置select字段为true，添加勾选功能，勾选事件通过bindcheckkey事件监听，勾选默认返回的是当前数据行数据的id(字符串类型)，可通过修改rowKey字段更改事件返回的内容。可添加selectKeys字段默认勾选指定项。">
+  <check></check>
+</layout>
 <layout title="基础用法" desc="必填项:columns、dataList、getListLoading、showTipImage。点击行事件通过bindclicklistitem事件监听">
   <basic></basic>
 </layout>
@@ -12,9 +15,6 @@
 </layout>
 <layout title="自定义td内容" desc="使用虚拟节点，添加generic:action-td属性。action-td接收item、index、columns三个字段，这三个字段足以判断用户点击的是哪个td。点击事件通过`bindclickaction`事件监听。">
   <custom-action></custom-action>
-</layout>
-<layout title="勾选" desc="设置select字段为true，添加勾选功能，勾选事件通过bindcheckkey事件监听，勾选默认返回的是当前数据行数据的id(字符串类型)，可通过修改rowKey字段更改事件返回的内容。可添加selectKeys字段默认勾选指定项。">
-  <check></check>
 </layout>
 <layout title="展开" desc="设置isExpand字段为true，添加展开功能，展开的内容字段通过expandValueKey字段设置，通过设置initExpandValue设置内容为空时的展示文本。">
   <expand></expand>
