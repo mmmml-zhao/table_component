@@ -21,6 +21,7 @@ type InitProperty = {
 type InitMethod = {
   options: any
   handleClickAction(e: GlobalData.WxAppletsEvent): void,
+  handleOnActionEvent(e: GlobalData.WxAppletsEvent): void,
   getList(): void,
   reloadList(): void,
   initComponent(): void
@@ -81,6 +82,10 @@ Component<InitData, InitProperty, InitMethod>({
       wx.showToast({
         title: str
       })
+    },
+    // 如果有action 里面有对数据的操作 触发该事件
+    handleOnActionEvent(e) {
+     console.log(e)
     },
     // 获取列表
     async getList() {

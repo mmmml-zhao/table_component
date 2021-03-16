@@ -12,7 +12,7 @@ type InitData = {
   pageSize: number, // 单页数量 
   pageCount: number,// 总页数
   getListLoading: boolean,
-  scrollViewHeight: string,
+  tableHeight: string,
 }
 
 type InitProperty = {
@@ -22,7 +22,6 @@ type InitProperty = {
 type InitMethod = {
   options: any
   getList(): void,
-  getTableScrollViewHeight(): void,
   initComponent(): void
 }
 
@@ -57,7 +56,7 @@ Component<InitData, InitProperty, InitMethod>({
     pageSize: 10,
     pageCount: 1,
     getListLoading: false,
-    scrollViewHeight: "600rpx"
+    tableHeight: "800rpx"
   },
   /**
    * 组件的方法列表
@@ -92,18 +91,8 @@ Component<InitData, InitProperty, InitMethod>({
         console.log(e)
       }
     },
-    getTableScrollViewHeight() {
-      const { pageConfig } = app.globalData
-      const node = this.createSelectorQuery().select('.set-height-table >>> .tr-th')
-      node.boundingClientRect((rect) => {
-        this.setData({
-          tableScrollViewHeight: `calc(100vh - ${pageConfig!.titleHeight + (rect.height / pageConfig!.pixelRate)}rpx)`
-        })
-      }).exec()
-    },
     initComponent() {
       this.getList()
-      this.getTableScrollViewHeight()
     },
   },
   lifetimes: {

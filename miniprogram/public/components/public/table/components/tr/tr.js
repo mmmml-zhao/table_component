@@ -71,6 +71,11 @@ Component({
                 value: e.detail.value
             });
         },
+        handleOnActionEvent(e) {
+            this.triggerEvent('onactionevent', {
+                value: e.detail.value
+            });
+        },
         handleClickExpand(e) {
             this.triggerEvent('clickexpand', {
                 value: e.detail.value

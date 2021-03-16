@@ -17,9 +17,8 @@ function debounce(fun: (...args: any) => void, delay: number) {
   }
 }
 
-
-
 type InitData = {
+  tableScrollViewHeight: string
   scrollTop: number,
   scrollLeftHeader: number,
   scrollLeftContent: number,
@@ -32,7 +31,7 @@ type InitData = {
 
 type InitProperty = {
   rowKey: WechatMiniprogram.Component.FullProperty<StringConstructor>,
-  scrollViewHeight: WechatMiniprogram.Component.FullProperty<StringConstructor>,
+  tableHeight: WechatMiniprogram.Component.FullProperty<StringConstructor>,
   scrollX: WechatMiniprogram.Component.FullProperty<BooleanConstructor>,
   columns: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
   dataList: WechatMiniprogram.Component.FullProperty<ArrayConstructor>,
@@ -61,8 +60,10 @@ type InitMethod = {
   handleScrolltoupper(): void,
   handleClickListItem(e: GlobalData.WxAppletsEvent): void,
   handleClickAction(e: GlobalData.WxAppletsEvent): void,
+  handleOnActionEvent(e: GlobalData.WxAppletsEvent): void,
   handleClickExpand(e: GlobalData.WxAppletsEvent): void,
   handleClickCheck(e: GlobalData.WxAppletsEvent): void
+  getTableScrollViewHeight(): void,
   tipFc(): void
 }
 
@@ -78,10 +79,10 @@ Component<InitData, InitProperty, InitMethod>({
       type: String,
       value: 'id'
     }, // 指明datalist里item的哪一项可以用作是key
-    scrollViewHeight: {
+    tableHeight: {
       type: String,
-      value: '600rpx'
-    }, // 表格数据块高度
+      value: '600rpx',
+    }, // 表格高度
     scrollX: {
       type: Boolean,
       value: false
@@ -141,6 +142,7 @@ Component<InitData, InitProperty, InitMethod>({
    * 组件的初始数据
    */
   data: {
+    tableScrollViewHeight: '0rpx',//表格滚动区域高度
     scrollTop: 0,// 设置回到顶部
     scrollLeftHeader: 0,
     scrollLeftContent: 0,
@@ -165,6 +167,10 @@ Component<InitData, InitProperty, InitMethod>({
       this.setData({
         checkObj: newCheckObj
       })
+    },
+    // 当表格高度修改，则修改滚动区域高度
+    'tableHeight': function () {
+      this.getTableScrollViewHeight()
     }
   },
 
@@ -258,7 +264,6 @@ Component<InitData, InitProperty, InitMethod>({
     },
     // 滚动到顶部触发
     handleScrolltoupper() {
-
       this.triggerEvent('scrolltoupper')
     },
     // 点击表格中一项触发
@@ -270,6 +275,12 @@ Component<InitData, InitProperty, InitMethod>({
     // 如果有action 里面有点击事件 怎触发该事件
     handleClickAction(e) {
       this.triggerEvent('clickaction', {
+        value: e.detail.value
+      })
+    },
+    // 如果有action 里面有对数据的操作 触发该事件
+    handleOnActionEvent(e) {
+      this.triggerEvent('onactionevent', {
         value: e.detail.value
       })
     },
@@ -300,6 +311,21 @@ Component<InitData, InitProperty, InitMethod>({
         })
       })
     },
+    // 设置table高度
+    getTableScrollViewHeight: function (this: WechatMiniprogram.Component.Instance<InitData, InitProperty, InitMethod, {}, false>) {
+      try {
+        const { tableHeight } = this.data
+        const pageConfig = wx.getSystemInfoSync()
+        const node = this.createSelectorQuery().select('.tr-th')
+        node.boundingClientRect((rect) => {
+          this.setData({
+            tableScrollViewHeight: `calc(${tableHeight} - ${rect.height * pageConfig.pixelRatio}rpx)`
+          })
+        }).exec()
+      } catch (e) {
+        console.log(e)
+      }
+    },
     tipFc() {
       const { rowKey, columns } = this.data
       if (!rowKey) {
@@ -315,6 +341,9 @@ Component<InitData, InitProperty, InitMethod>({
     // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
     attached: function () {
       this.tipFc()
+    },
+    ready: function () {
+      this.getTableScrollViewHeight()
     },
     moved: function () { },
     detached: function () { },

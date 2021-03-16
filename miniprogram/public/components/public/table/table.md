@@ -18,7 +18,7 @@
 |getListLoading|	请求列表的loading 	| boolean | false| true |
 |showTipImage|	无数据时的提示文本图片	| boolean | false| true |
 |rowKey|	用于指明行的唯一标识符，在勾选中有使用	| string | id | false |
-|scrollViewHeight|控制可滚动区域高度。|string| 600rpx|false |
+| tableHeight | table高度。|string| 600rpx |false |
 |tipTitle|	无数据时的提示文本主标题   | string | 提示 | false |
 |tipSubtitle|	无数据时的提示文本副标题 	| string |  暂无数据| false |
 |scrollX|	是否需要X轴滚动。	| boolean | false| false |
@@ -40,6 +40,7 @@
 |bindclicklistitem| 点击列表行事件  |Function(e);  e.detail.value = {index:number（当前行序号）,item: any（当前行的内容）}|  
 |bindclickexpand| 点击展开内容事件  |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在expand-component里)}|  
 |bindclickaction| 点击抽象节点事件 |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}|  
+|bindonactionevent| 抽象节点内的业务事件触发 |Function(e); e.detail.value = {type:(这个按钮的含义字段，如‘close’),index:(当前的行),item:(当前行的数据)};(这是我这里定义的结构，具体可以自己定义在action-td里)}|  
 |bindcheckkey| 勾选事件 返回被勾选项的rowKey数组 |Function(e); e.detail.value = any[]//(数组内每一项是rowKey字段定义的数据的toString()结果)|  
 |bindscrolltolower| 滚动触底 | Function() |  
 |bindscrolltoupper| 滚动触顶 | Function() |

@@ -1,1 +1,1 @@
-<table class="set-height-table" scrollViewHeight="{{tableScrollViewHeight}}" columns="{{tableColumns}}" dataList="{{dataList}}" getListLoading="{{getListLoading}}" showTipImage="{{dataList.length===0&!getListLoading}}" />
+<table class="set-height-table" tableHeight="{{tableHeight}}" columns="{{tableColumns}}" dataList="{{dataList}}" getListLoading="{{getListLoading}}" showTipImage="{{dataList.length===0&!getListLoading}}" />

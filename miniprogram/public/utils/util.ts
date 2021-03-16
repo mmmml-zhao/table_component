@@ -23,6 +23,7 @@ export const setNavStyle = () => {
     phoneSystem: undefined           //系统版本
   }
   let res = wx.getSystemInfoSync();
+  console.log(res)
   // 设置系统
   config.phoneSystem = res.platform.toLowerCase() as "ios" | "android";
   config.pixelRate = res.windowWidth / 750;

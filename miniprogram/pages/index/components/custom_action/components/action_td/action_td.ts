@@ -54,6 +54,12 @@ Component<InitData, InitProperty, InitMethod>({
           index, item
         }
       })
+      this.triggerEvent('onactionevent', {
+        value: {
+          type,
+          index, item
+        }
+      })
     }
   },
 

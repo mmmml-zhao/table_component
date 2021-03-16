@@ -1,9 +1,8 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -30,7 +29,7 @@ Component({
         pageSize: 10,
         pageCount: 1,
         getListLoading: false,
-        scrollViewHeight: "600rpx"
+        tableHeight: "800rpx"
     },
     methods: {
         options: {},
@@ -66,18 +65,8 @@ Component({
                 }
             });
         },
-        getTableScrollViewHeight() {
-            const { pageConfig } = app.globalData;
-            const node = this.createSelectorQuery().select('.set-height-table >>> .tr-th');
-            node.boundingClientRect((rect) => {
-                this.setData({
-                    tableScrollViewHeight: `calc(100vh - ${pageConfig.titleHeight + (rect.height / pageConfig.pixelRate)}rpx)`
-                });
-            }).exec();
-        },
         initComponent() {
             this.getList();
-            this.getTableScrollViewHeight();
         },
     },
     lifetimes: {

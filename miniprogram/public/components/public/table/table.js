@@ -24,9 +24,9 @@ Component({
             type: String,
             value: 'id'
         },
-        scrollViewHeight: {
+        tableHeight: {
             type: String,
-            value: '600rpx'
+            value: '600rpx',
         },
         scrollX: {
             type: Boolean,
@@ -84,6 +84,7 @@ Component({
         },
     },
     data: {
+        tableScrollViewHeight: '0rpx',
         scrollTop: 0,
         scrollLeftHeader: 0,
         scrollLeftContent: 0,
@@ -108,6 +109,9 @@ Component({
             this.setData({
                 checkObj: newCheckObj
             });
+        },
+        'tableHeight': function () {
+            this.getTableScrollViewHeight();
         }
     },
     methods: {
@@ -116,7 +120,7 @@ Component({
             const needReaderColums = columns.filter(item => item.render);
             this.setData({
                 showDataList: dataList.map((item, index) => {
-                    let newItem = Object.assign(Object.assign({}, item), { row_key: `${item[rowKey]}` });
+                    let newItem = Object.assign({}, item, { row_key: `${item[rowKey]}` });
                     needReaderColums.forEach((item1) => {
                         newItem[item1.key] = item1.render(newItem[item1.key], item, index, getNowPage().data);
                     });
@@ -205,6 +209,11 @@ Component({
                 value: e.detail.value
             });
         },
+        handleOnActionEvent(e) {
+            this.triggerEvent('onactionevent', {
+                value: e.detail.value
+            });
+        },
         handleClickExpand(e) {
             this.triggerEvent('clickexpand', {
                 value: e.detail.value
@@ -229,6 +238,21 @@ Component({
                 });
             });
         },
+        getTableScrollViewHeight: function () {
+            try {
+                const { tableHeight } = this.data;
+                const pageConfig = wx.getSystemInfoSync();
+                const node = this.createSelectorQuery().select('.tr-th');
+                node.boundingClientRect((rect) => {
+                    this.setData({
+                        tableScrollViewHeight: `calc(${tableHeight} - ${rect.height * pageConfig.pixelRatio}rpx)`
+                    });
+                }).exec();
+            }
+            catch (e) {
+                console.log(e);
+            }
+        },
         tipFc() {
             const { rowKey, columns } = this.data;
             if (!rowKey) {
@@ -242,6 +266,9 @@ Component({
     lifetimes: {
         attached: function () {
             this.tipFc();
+        },
+        ready: function () {
+            this.getTableScrollViewHeight();
         },
         moved: function () { },
         detached: function () { },

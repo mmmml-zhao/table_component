@@ -1,9 +1,8 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -24,6 +23,7 @@ export const setNavStyle = () => {
         phoneSystem: undefined
     };
     let res = wx.getSystemInfoSync();
+    console.log(res);
     config.phoneSystem = res.platform.toLowerCase();
     config.pixelRate = res.windowWidth / 750;
     config.platform = res.platform;
@@ -55,7 +55,7 @@ export function mockData(type, item, title, pageIndex, pageSize) {
     else {
         const dataList = [];
         for (let i = 0; i < pageSize; i++) {
-            dataList.push(Object.assign(Object.assign({}, item), { id: i + 1 + (pageIndex - 1) * pageSize, [title]: `${i + 1 + (pageIndex - 1) * pageSize}条数据` }));
+            dataList.push(Object.assign({}, item, { id: i + 1 + (pageIndex - 1) * pageSize, [title]: `${i + 1 + (pageIndex - 1) * pageSize}条数据` }));
         }
         return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
             yield delay(1000);

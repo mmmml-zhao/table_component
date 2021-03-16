@@ -10,7 +10,7 @@
         {{item[cItem.key]}}
       </view>
       <view class="action-td" style="width:{{table.computedTdWidth(columns,select)}};{{cIndex===columns.length-1?'flex-grow:1;flex-shrink:1':''}}" wx:else>
-        <action-td item="{{item}}" index="{{index}}" columns="{{cItem}}" dynamicValue="{{dynamicValue}}" bindclickaction="handleClickAction" slot="action-td"></action-td>
+        <action-td item="{{item}}" index="{{index}}" columns="{{cItem}}" dynamicValue="{{dynamicValue}}" bindclickaction="handleClickAction" bindonactionevent="handleOnActionEvent" slot="action-td"></action-td>
       </view>
     </block>
   </view>

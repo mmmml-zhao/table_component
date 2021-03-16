@@ -27,6 +27,12 @@ Component({
                     index, item
                 }
             });
+            this.triggerEvent('onactionevent', {
+                value: {
+                    type,
+                    index, item
+                }
+            });
         }
     },
     lifetimes: {

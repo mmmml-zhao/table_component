@@ -24,6 +24,7 @@ type InitProperty = {
 type InitMethod = {
   handleClickListItem(e: GlobalData.WxAppletsEvent): void,
   handleClickAction(e: GlobalData.WxAppletsEvent): void,
+  handleOnActionEvent(e: GlobalData.WxAppletsEvent): void,
   handleClickExpand(e: GlobalData.WxAppletsEvent): void,
   handleClickCheck(e: GlobalData.WxAppletsEvent): void,
   setExpand(): void,
@@ -110,9 +111,15 @@ Component<InitData, InitProperty, InitMethod>({
         }
       })
     },
-    // 如果有action 里面有点击事件 怎触发该事件
+    // 如果有action 里面有点击事件 触发该事件
     handleClickAction(e) {
       this.triggerEvent('clickaction', {
+        value: e.detail.value
+      })
+    },
+    // 如果有action 里面有对数据的操作 触发该事件
+    handleOnActionEvent(e) {
+      this.triggerEvent('onactionevent', {
         value: e.detail.value
       })
     },
