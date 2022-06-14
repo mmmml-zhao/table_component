@@ -28,6 +28,7 @@
 <layout title="批量动态控制自定义内容" desc="当需要动态修改自定义内容内的样式或功能时(如从显示状态改成批量修改状态.)，可以设置dynamic_value字段，建议对象形式为{value:放的数据}。如要动态控制某一行的展示请直接修改需要修改的行的数据。">
   <dynamic-value></dynamic-value>
 </layout>
+<ad unit-id="adunit-dacfc62ff1461af4"></ad>
 <layout title="参数介绍" desc="">
   <parameter></parameter>
 </layout>
